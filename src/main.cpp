@@ -10,8 +10,9 @@ constexpr uint8_t kOledHeight = 32;
 constexpr uint8_t kOledAddress = 0x3C;
 Adafruit_SSD1306 display(kOledWidth, kOledHeight, &Wire, -1);
 
-// SCD41 setup
-constexpr uint8_t kScd41Address = 0x62;  // informational only
+// SCD41 setup — second I2C bus (Wire1)
+constexpr uint8_t kScd41Sda = 16;
+constexpr uint8_t kScd41Scl = 17;
 SensirionI2cScd4x scd4x;
 
 void scanI2CBus() {
@@ -61,6 +62,7 @@ void setup() {
   Serial.begin(9600);
   delay(100);
   Wire.begin();
+  Wire1.begin(kScd41Sda, kScd41Scl);
 
   if (!display.begin(SSD1306_SWITCHCAPVCC, kOledAddress)) {
     // Avoid reboot loops; nothing else to do if display fails
@@ -73,7 +75,7 @@ void setup() {
 
   showStatus("Init sensor...");
 
-  scd4x.begin(Wire, SCD41_I2C_ADDR_62);
+  scd4x.begin(Wire1, SCD41_I2C_ADDR_62);
   scd4x.startPeriodicMeasurement();
 
   scanI2CBus();
