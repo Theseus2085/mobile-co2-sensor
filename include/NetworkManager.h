@@ -21,7 +21,7 @@ class NetworkManager {
   bool subscribe(const char* topic);
 
   bool isWiFiConnected() const;
-  bool isMqttConnected() const;
+  bool isMqttConnected();
   bool consumeMqttConnectedEvent();
 
  private:

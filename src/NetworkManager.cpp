@@ -145,7 +145,7 @@ bool NetworkManager::subscribe(const char* topic) {
 
 bool NetworkManager::isWiFiConnected() const { return WiFi.status() == WL_CONNECTED; }
 
-bool NetworkManager::isMqttConnected() const { return mqttClient_.connected(); }
+bool NetworkManager::isMqttConnected() { return mqttClient_.connected(); }
 
 bool NetworkManager::consumeMqttConnectedEvent() {
   if (!mqttConnectedEventPending_) {
